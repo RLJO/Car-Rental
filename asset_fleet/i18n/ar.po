@@ -1,0 +1,98 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* asset_fleet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+e-20190526\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-15 08:38+0000\n"
+"PO-Revision-Date: 2020-02-15 11:42+0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: \n"
+"Language: ar\n"
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_account_asset_asset__is_vehicle
+msgid "Add to fleet"
+msgstr "أضافه للاسطول"
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_account_asset_asset__account_analytic_id
+#: model:ir.model.fields,field_description:asset_fleet.field_fleet_vehicle__account_analytic_id
+#, fuzzy
+msgid "Analytic Account"
+msgstr "تحليلي من انفاق"
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_account_asset_asset__name
+msgid "Asset Name"
+msgstr "الاسم الاصل"
+
+#. module: asset_fleet
+#: model:ir.model,name:asset_fleet.model_account_asset_asset
+msgid "Asset/Revenue Recognition"
+msgstr ""
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_fleet_vehicle_odometer__hours
+msgid "Hours Value"
+msgstr "قيمة الساعة"
+
+#. module: asset_fleet
+#: model:ir.model.fields,help:asset_fleet.field_fleet_vehicle__hours
+msgid "Hours measure of the vehicle at the moment of this log"
+msgstr "قياسات الساعة لهذه السيارة عند اخذ هذا التسجيل"
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_fleet_vehicle__hours
+msgid "Last Hours"
+msgstr "آخر ساعة"
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_fleet_vehicle__license_plate
+msgid "License Plate"
+msgstr "لوحة الترخيص"
+
+#. module: asset_fleet
+#: model:ir.model.fields,help:asset_fleet.field_fleet_vehicle__license_plate
+msgid "License plate number of the vehicle (i = plate number for a car)"
+msgstr ""
+
+#. module: asset_fleet
+#: model:ir.model,name:asset_fleet.model_fleet_vehicle_odometer
+msgid "Odometer log for a vehicle"
+msgstr "تسجيل الاودو ميتر لسيارة"
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_account_asset_asset__code
+msgid "Reference"
+msgstr "مرجع"
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_fleet_vehicle__code
+msgid "Reference Number"
+msgstr "رقم المرجع"
+
+#. module: asset_fleet
+#: model:ir.model,name:asset_fleet.model_fleet_vehicle
+#: model:ir.model.fields,field_description:asset_fleet.field_account_asset_asset__vehicle_id
+msgid "Vehicle"
+msgstr "سيارة"
+
+#. module: asset_fleet
+#: code:addons/asset_fleet/models/asset_fleet.py:75
+#: code:addons/asset_fleet/models/asset_fleet.py:122
+#, python-format
+msgid "Vehicle Reference number already exists"
+msgstr ""
+
+#. module: asset_fleet
+#: model:ir.model.fields,field_description:asset_fleet.field_fleet_vehicle__vehicle_work
+msgid "Vehicle Work"
+msgstr "عمل السيارة"

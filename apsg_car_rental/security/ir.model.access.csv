@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_apsg_car_rental_checklist,rental_checklist_access,model_rental_checklist,base.group_user,1,1,1,1
+access_apsg_car_rental_car_tools,rental_car_tools_access,model_car_tools,base.group_user,1,1,1,1

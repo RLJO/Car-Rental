@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- asset : views inheritance -->
+<!--    <record id="view_account_asset_asset_form" model="ir.ui.view">-->
+<!--        <field name="inherit_id" ref="account_asset.view_account_asset_form" />-->
+<!--        <field name="model">account.asset.asset</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="invoice_id" position="after">-->
+<!--                <field name="is_vehicle" />-->
+<!--                   <field name="vehicle_id" invisible="1"/>-->
+<!--                   <field name="vehicle_id"-->
+<!--                      attrs="{'invisible': ['|', '&amp;', ('is_vehicle','!=', True),('vehicle_id', '=', False)],'required': [('is_vehicle','=', True)]}" domain="[('code','=', 'qweb')]"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- fleet : views inheritance -->
+    <record id="fleet_vehicle_view_form" model="ir.ui.view">
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="model">fleet.vehicle</field>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//button[@name='toggle_active']" position="after">-->
+<!--                <button  name="toggle_stop" type="object" class="oe_stat_button" icon="fa-bus">-->
+<!--                    <field name="black_list" widget="boolean_button" options="{'terminology':{'string_true': 'Run',-->
+<!--                         'hover_true': 'Stop','string_false': 'Stop','hover_false': 'Run'}}" />-->
+<!--                </button>-->
+<!--            </xpath>-->
+            <field name="driver_id" position="after">
+                <field name="code" />
+                <field name="owner_id" />
+                <field name="owner_name" />
+                <field name="plate_type" />
+                <field name="mvpi_state" />
+                <field name="insurance_state" />
+                <field name="account_analytic_id" />
+            </field>
+            <field name="acquisition_date" position="before">
+                <field name="hours" />
+                <field name="ownership_date_h" placeholder="DD-MM-YYYY e.g. 29/01/1440" />
+                <field name="ownership_date" />
+                <field name="license_expiry_date_h" placeholder="DD-MM-YYYY e.g. 29/01/1440" />
+                <field name="license_expiry_date" />
+
+
+
+
+
+
+            </field>
+        </field>
+    </record>
+    <!-- fleet odometer: views inheritance -->
+       <record id='fleet_vehicle_odometer_view_form' model='ir.ui.view'>
+           <field name="inherit_id" ref="fleet.fleet_vehicle_odometer_view_form" />
+           <field name="model">fleet.vehicle.odometer</field>
+        <field name="arch" type="xml">
+            <field name="unit" position="after">
+                <field name="hours" />
+            </field>
+        </field>
+    </record>
+
+    <record id='fleet_vehicle_odometer_view_tree' model='ir.ui.view'>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_odometer_view_tree" />
+        <field name="model">fleet.vehicle.odometer</field>
+        <field name="arch" type="xml">
+            <field name="unit" position="after">
+                <field name="hours" />
+            </field>
+        </field>
+    </record>
+</odoo>
