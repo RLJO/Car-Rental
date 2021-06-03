@@ -82,10 +82,13 @@ class FleetVehicle(models.Model):
             d = date.split('/')
             if len(d) == 3:
                 try:
-                    day = int(d[0])
-                    month = int(d[1])
+                    day = int(d[1])
+                    month = int(d[0])
                     year = int(d[2])
-                    g = convert.Hijri(year, month, day).to_gregorian()
+                    if year>1900:
+                        g=date
+                    else:
+                        g = convert.Hijri(year, month, day).to_gregorian()
                     error = False
                     return g, error
                 except:
