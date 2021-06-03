@@ -86,14 +86,14 @@ class FleetVehicle(models.Model):
                     month = int(d[1])
                     year = int(d[2])
                     g = convert.Hijri(year, month, day).to_gregorian()
-                    error = False
-                    return g, error
-                except:
-                    error = True
-                    return error,
-            else:
-                error = True
-                return error,
+            #         error = False
+            #         return g, error
+            #     except:
+            #         error = True
+            #         return error,
+            # else:
+            #     error = True
+            #     return error,
 
 
     def _get_hours(self):
