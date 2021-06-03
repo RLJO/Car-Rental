@@ -82,8 +82,8 @@ class FleetVehicle(models.Model):
             d = date.split('/')
             if len(d) == 3:
                 try:
-                    day = int(d[1])
-                    month = int(d[0])
+                    day = int(d[0])
+                    month = int(d[1])
                     year = int(d[2])
                     if year>1900:
                         g=date
