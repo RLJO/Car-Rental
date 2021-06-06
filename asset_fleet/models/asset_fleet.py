@@ -88,7 +88,10 @@ class FleetVehicle(models.Model):
                     if year>1900:
                         g=date
                     else:
-                        g = convert.Hijri(year, month, day).to_gregorian()
+                        try:
+                           g = convert.Hijri(year, month, day).to_gregorian()
+                        except:
+                            g = convert.Hijri(year,day, month).to_gregorian()
                     error = False
                     return g, error
                 except:
