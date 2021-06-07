@@ -1,0 +1,474 @@
+<odoo>
+    <data>
+        <template id="report_rentalorder_document"
+                  inherit_id="browseinfo_rental_management.report_rentalorder_document">
+            <xpath expr='//t[@t-call="web.external_layout"]' position="replace">
+                <t t-call="web.external_layout">
+                    <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
+                    <div id="informations" class="row mt32 mb32">
+
+                        <div class="col-auto col-2 mw-100 mb-2">
+                            <strong>Contract #:</strong>
+                            <p class="m-0" t-field="doc.name"/>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.date_order">
+                            <strong>Contract Date:</strong>
+                            <p class="m-0" t-field="doc.date_order"/>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.state == 'confirm'">
+                            <strong>Contract State:</strong>
+                            <p class="m-0">
+                                Open / عقد مفتوح
+                            </p>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.state == 'close'">
+                            <strong>Contract State:</strong>
+                            <p class="m-0">
+                                Closed / عقد مغلق
+                            </p>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.contract_type == 'individual'">
+                            <strong>Contract Type:</strong>
+                            <p class="m-0">
+                                Individual / افراد
+                            </p>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.contract_type == 'company'">
+                            <strong>Contract Type:</strong>
+                            <p class="m-0">
+                                Companies / شركات
+                            </p>
+                        </div>
+
+                        <div t-if="doc.user_id.name" class="col-auto mw-100 mb-3">
+                            <strong>Salesperson:</strong>
+                            <p class="m-0" t-field="doc.user_id"/>
+                        </div>
+
+                    </div>
+                    <br/>
+                    <table style="border-collapse: collapse; width: 100%;font-size:12px;border: 1px solid #666;"
+                           border="1">
+                        <tbody>
+                            <tr style="text-align:center;border: 1px solid #666;background-color:gray;color:white;">
+                                <td colspan="10" style="vertical-align:middle">
+                                    <p style="text-align:left;float:left;padding-left:5px;vertical-align:middle">Renter
+                                        Information
+                                    </p>
+                                    <p style="text-align:right;float:right;padding-right:5px;vertical-align:middle">
+                                        بيانات المستأجر
+                                    </p>
+                                </td>
+                            </tr>
+
+
+                            <tr style="text-align:center;border: 1px solid #666;">
+
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                        <p class="m-0" t-field="doc.partner_id.id_issue_at"/>
+                                    </t>
+                                </td>
+                                <td style="width:10%; vertical-align:middle">مصدرها
+                                    <br/>
+                                    Issued from
+                                </td>
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                        <p class="m-0" t-field="doc.partner_id.id_date"/>
+                                    </t>
+                                </td>
+                                <td style="width:10%; vertical-align:middle">تاريخ الانتهاء
+                                    <br/>
+                                    Expiry Date
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                        <p class="m-0" t-field="doc.partner_id.clint_num"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">رقم الهوية
+                                    <br/>
+                                    ID No.
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                        <p class="m-0" t-field="doc.partner_id.name"/>
+                                    </t>
+                                </td >
+                                <td  style="width: 12.5%; vertical-align:middle">اسم المستأجر
+                                    <br/>
+                                    Renter's Name
+                                </td>
+                            </tr>
+                            <tr style="text-align:center;border: 1px solid #666;">
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                    <p class="m-0" t-field="doc.partner_id.mobile"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">الجوال
+                                    <br/>
+                                    Mobile No.
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                    <p class="m-0" t-field="doc.partner_id.phone"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">هاتف العمل
+                                    <br/>
+                                    Work Tel.
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                    <p class="m-0" t-field="doc.partner_id.street"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">العنوان
+                                    <br/>
+                                    Address
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.partner_id">
+                                        <p class="m-0" t-field="doc.partner_id.country_id"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">الجنسية
+                                    <br/>
+                                    Nationality
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <table style="border-collapse: collapse; width: 100%;font-size:12px;border: 1px solid #666;"
+                           border="1">
+                        <tbody>
+                            <tr style="text-align:center;border: 1px solid #666;background-color:gray;color:white;">
+                                <td colspan="10" style="vertical-align:middle">
+                                    <p style="text-align:left;float:left;padding-left:5px;vertical-align:middle">Additional Driver
+                                        Information
+                                    </p>
+                                    <p style="text-align:right;float:right;padding-right:5px;vertical-align:middle">
+                                        بيانات السائق الاضافي
+                                    </p>
+                                </td>
+                            </tr>
+
+
+                            <tr style="text-align:center;border: 1px solid #666;">
+
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                        <p class="m-0" t-field="doc.additional_driver_id.id_issue_at"/>
+                                    </t>
+                                </td>
+                                <td style="width:10%; vertical-align:middle">مصدرها
+                                    <br/>
+                                    Issued from
+                                </td>
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                        <p class="m-0" t-field="doc.additional_driver_id.id_date"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">تاريخ الانتهاء
+                                    <br/>
+                                    Expiry Date
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                        <p class="m-0" t-field="doc.additional_driver_id.clint_num"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">رقم الهوية
+                                    <br/>
+                                    ID No.
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                        <p class="m-0" t-field="doc.additional_driver_id.name"/>
+                                    </t>
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle">السائق الاضافي
+                                    <br/>
+                                    Additional Driver
+                                </td>
+                            </tr>
+                            <tr style="text-align:center;border: 1px solid #666;">
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                    <p class="m-0" t-field="doc.additional_driver_id.mobile"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">الجوال
+                                    <br/>
+                                    Mobile No.
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                    <p class="m-0" t-field="doc.additional_driver_id.phone"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">هاتف العمل
+                                    <br/>
+                                    Work Tel.
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                    <p class="m-0" t-field="doc.additional_driver_id.street"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">العنوان
+                                    <br/>
+                                    Address
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.additional_driver_id">
+                                        <p class="m-0" t-field="doc.additional_driver_id.country_id"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">الجنسية
+                                    <br/>
+                                    Nationality
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <table style="border-collapse: collapse; width: 100%;font-size:12px;border: 1px solid #666;"
+                           border="1">
+                        <tbody>
+                            <tr style="text-align:center;border: 1px solid #666;background-color:gray;color:white;">
+                                <td colspan="10" style="vertical-align:middle">
+                                    <p style="text-align:left;float:left;padding-left:5px;vertical-align:middle">Rental Agreement Details
+                                    </p>
+                                    <p style="text-align:right;float:right;padding-right:5px;vertical-align:middle">
+                                        معلومات عقد الايجار
+                                    </p>
+                                </td>
+                            </tr>
+
+
+                            <tr style="text-align:center;border: 1px solid #666;">
+
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.warehouse_id">
+                                        <p class="m-0" t-field="doc.warehouse_id.name"/>
+                                    </t>
+                                </td>
+                                <td style="width:10%; vertical-align:middle">المحطة
+                                    <br/>
+                                    Station
+                                </td>
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.out_date">
+                                        <p class="m-0" t-field="doc.out_date"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">تاريخ/وقت الخروج
+                                    <br/>
+                                    Date/Time Out
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.in_date">
+                                        <p class="m-0" t-field="doc.in_date"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">تاريخ/وقت العودة
+                                    <br/>
+                                    Date/Time In
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle">
+                                    <t t-if="doc.rental_initial">
+                                        <p class="m-0" t-field="doc.rental_initial"/>
+                                        <p class="m-0" t-field="doc.rental_initial_type"/>
+                                    </t>
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle">اجمالي الفترة
+                                    <br/>
+                                    Total Period
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table style="border-collapse: collapse; width: 100%;font-size:12px;border: 1px solid #666;"
+                           border="1">
+                        <tbody>
+                            <tr style="text-align:center;border: 1px solid #666;background-color:gray;color:white;">
+                                <td colspan="10" style="vertical-align:middle">
+                                    <p style="text-align:left;float:left;padding-left:5px;vertical-align:middle">Vehicle Details
+                                    </p>
+                                    <p style="text-align:right;float:right;padding-right:5px;vertical-align:middle">
+                                        معلومات المركبة
+                                    </p>
+                                </td>
+                            </tr>
+
+
+                            <tr style="text-align:center;border: 1px solid #666;">
+
+                                <td style="width:10%; vertical-align:middle">
+                                    <t t-if="doc.rental_line">
+                                        <p class="m-0" t-field="doc.rental_line.fleet_id.color"/></t>
+                                </td>
+                                <td style="width:5%; vertical-align:middle">اللون
+                                    <br/>
+                                    Color
+                                </td>
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.rental_line">
+                                    <p class="m-0" t-field="doc.rental_line.fleet_id.license_plate"/>
+                                    </t>
+                                </td>
+                                <td style="width:7%; vertical-align:middle" colspan="2">رقم اللوحة
+                                    <br/>
+                                    Plate No.
+                                </td>
+
+                                <td style="width: 12.5%; vertical-align:middle" colspan="2">
+                                    <t t-if="doc.rental_line">
+                                    <p class="m-0" t-field="doc.rental_line.fleet_id.model_id"/>
+                                    </t>
+                                </td>
+                                <td style="min-width:12.5%; vertical-align:middle">نوع السيارة
+                                    <br/>
+                                    Type of Car
+                                </td>
+
+                            </tr>
+                            <tr style="text-align:center;border: 1px solid #666;">
+                                <td style="min-width: 12.5%; vertical-align:middle" >
+                                    <t t-if="doc.odometer_out">
+                                        <p class="m-0" t-field="doc.odometer_out"/>
+                                    </t>
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle">عداد المغادرة
+                                    <br/>
+                                    KM Out
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle" >
+                                    <t t-if="doc.odometer_in">
+                                        <p class="m-0" t-field="doc.odometer_in"/>
+                                    </t>
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle" >عداد الوصول
+                                    <br/>
+                                    KM In
+                                </td>
+                                <td style="width:7%; vertical-align:middle">
+                                    <t t-if="doc.rental_line">
+                                    <p class="m-0" t-field="doc.rental_line.fleet_id.model_year"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">سنه الصنع
+                                    <br/>
+                                    Model Year
+                                </td>
+                                <td style="width:10%; vertical-align:middle">
+                                    <t t-if="doc.rental_line">
+                                    <p class="m-0" t-field="doc.rental_line.fleet_id.model_id.name"/>
+                                    </t>
+                                </td>
+                                <td style="width:7%; vertical-align:middle">الموديل
+                                    <br/>
+                                    Model
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <table style="border-collapse: collapse; width: 100%;font-size:12px;border: 1px solid #666;"
+                           border="1">
+                        <tbody>
+                            <tr style="text-align:center;border: 1px solid #666;background-color:gray;color:white;">
+                                <td colspan="10" style="vertical-align:middle">
+                                    <p style="text-align:left;float:left;padding-left:5px;vertical-align:middle">Charge Details
+                                    </p>
+                                    <p style="text-align:right;float:right;padding-right:5px;vertical-align:middle">
+                                        معلومات التكاليف المالية
+                                    </p>
+                                </td>
+                            </tr>
+
+
+                            <tr style="text-align:center;border: 1px solid #666;">
+
+                                <td style="width:10%; vertical-align:middle">
+                                    <t t-if="doc.rental_line">
+                                    <p class="m-0" t-field="doc.rental_line.product_id.afford_amount"/>
+                                    </t>
+                                </td>
+                                <td style="width:5%; vertical-align:middle">قيمة التحمل
+                                    <br/>
+                                    Afford Amount
+                                </td>
+                                <td style="width:12.5%; vertical-align:middle">
+                                    <t t-if="doc.rental_line">
+                                    <p class="m-0" t-field="doc.rental_line.fleet_id.km_allowed"/>
+                                    </t>
+                                </td>
+                                <td style="width:7%; vertical-align:middle" colspan="2">كيلو مسموح
+                                    <br/>
+                                    Daily Km
+                                </td>
+
+                                <td style="width: 12.5%; vertical-align:middle" colspan="2">
+                                    <t t-if="doc.rental_line">
+                                    <p class="m-0" t-field="doc.rental_line.fleet_id.extra_km_price"/>
+                                    </t>
+                                </td>
+                                <td style="min-width:12.5%; vertical-align:middle">سعر الكيلو الزائد
+                                    <br/>
+                                    Extra KM
+                                </td>
+
+                            </tr>
+                            <tr style="text-align:center;border: 1px solid #666;">
+                                <td style="min-width: 12.5%; vertical-align:middle" >
+                                    <t t-if="doc.invoice_id">
+                                    <p class="m-0" t-field="doc.invoice_id.amount_total"/>
+                                    </t>
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle">الاجمالي
+                                    <br/>
+                                    Total
+                                </td>
+                                <td style="min-width: 12.5%; vertical-align:middle" >
+                                    <t t-if="doc.invoice_id">
+                                    <p class="m-0" t-field="doc.invoice_id.amount_untaxed"/>
+                                    </t>
+                                </td>
+                                <td style="width: 12.5%; vertical-align:middle" >المبلغ قبل الضريبة
+                                    <br/>
+                                    Untaxed Amount
+                                </td>
+                                <td style="width:7%; vertical-align:middle">
+                                    <t t-if="doc.invoice_id">
+                                    <p class="m-0" t-field="doc.invoice_id.amount_tax"/>
+                                    </t>
+                                </td>
+                                <td style="width: 10%; vertical-align:middle">الضريبة
+                                    <br/>
+                                    VAT
+                                </td>
+                                <td style="width:10%; vertical-align:middle">
+                                    <t t-if="doc.invoice_id">
+                                    <p class="m-0" t-field="doc.invoice_id.invoice_line_ids.discount"/>
+                                    </t>
+                                </td>
+                                <td style="width:7%; vertical-align:middle">الخصم
+                                    <br/>
+                                    Discount
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </t>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
