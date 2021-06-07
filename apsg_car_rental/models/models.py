@@ -7,17 +7,21 @@ import math
 from dateutil.relativedelta import relativedelta
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 import pytz
+from hijri_converter import convert
+
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
     clint_num = fields.Char('ID Number', copy=False)
     id_issue_at = fields.Char('ID Issued from', copy=False)
-    id_date = fields.Date('ID Expiry Date')
+    id_date_hj = fields.Char('ID Hijri Expiry Date')
+    id_date = fields.Date('ID Expiry Date', readonly=True, compute='_compute_id_date')
     license_num = fields.Char('License Number')
     license_issue_at = fields.Char('License Issued from', copy=False)
 
-    license_date = fields.Date('License Expiry Date')
+    license_date_hj = fields.Char('License Hijri Expiry Date')
+    license_date = fields.Date('License Expiry Date', readonly=True, compute='_compute_license_expiry_date')
     license_type = fields.Selection([('private', 'Private'), ('public', 'Public'), ('international', 'International'), ]
                                     ,
                                     string='License Type')
@@ -33,6 +37,46 @@ class ResPartner(models.Model):
         ('license_unique', 'UNIQUE (license_num)',
          'License Number must be unique'),
     ]
+
+    @api.depends('license_date_hj')
+    def _compute_license_expiry_date(self):
+        license_expiry_date = self.convert_date(self.license_date_hj)
+        if license_expiry_date is not None:
+            if len(license_expiry_date) == 1:
+                raise UserError(_('Enter the correct (License Expiry Date)'))
+            else:
+                self.license_date = license_expiry_date[0]
+        else:
+            self.license_date = None
+
+    @api.depends('id_date_hj')
+    def _compute_id_date(self):
+        id_date = self.convert_date(self.id_date_hj)
+        if id_date is not None:
+            if len(id_date) == 1:
+                raise UserError(_('Enter the correct (Ownership Date)'))
+            else:
+                self.id_date = id_date[0]
+        else:
+            self.id_date = None
+
+    def convert_date(self, date):
+        if date:
+            d = date.split('/')
+            if len(d) == 3:
+                try:
+                    day = int(d[0])
+                    month = int(d[1])
+                    year = int(d[2])
+                    g = convert.Hijri(year, month, day).to_gregorian()
+                    error = False
+                    return g, error
+                except:
+                    error = True
+                    return error,
+            else:
+                error = True
+                return error,
 
 
 class ProductProductFleet(models.Model):
@@ -81,7 +125,8 @@ class RentalOrder(models.Model):
     _inherit = 'rental.order'
 
     additional_driver_active = fields.Boolean('Add Additional Driver')
-    additional_driver_id = fields.Many2one('res.partner', string='Additional Driver')
+    additional_driver_id = fields.Many2one('res.partner', string='Additional Driver', domain=[('channel_type', '=',
+                                                                                               'channel')])
     rental_initial_type = fields.Selection(string="Initial Terms Type", selection=[
         ('days', 'Days'),
         ('weeks', 'Weeks'),
@@ -103,6 +148,12 @@ class RentalOrder(models.Model):
     shmoos = fields.Boolean('Shmoos Checking', default=False, required=True, track_visibility='onchange')
     days_duration = fields.Integer(string='Duration in days')
     km_diff = fields.Integer(string='Kilometer difference')
+    contract_type = fields.Selection(string="Contract Type", selection=[('individual', 'Individual'),
+                                                                        ('company', 'Company')])
+    out_date = fields.Datetime('Date/Time Out')
+    in_date = fields.Datetime('Date/Time In')
+    odometer_out = fields.Float(string='Odometer Out')
+    odometer_in = fields.Float(string='Odometer In')
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
@@ -149,6 +200,17 @@ class RentalOrder(models.Model):
                 if additional_driver.black_list == 'active':
                     raise UserError(_('The Additional Driver is included in the blacklist'))
         return super(RentalOrder, self).write(vals)
+
+    @api.onchange('contract_type')
+    def _onchange_contract_type(self):
+        for rental in self:
+            if rental.contract_type == 'individual':
+                rental.partner_id = False
+                return {'domain': {'partner_id': [('is_company', '=', False)]}}
+            elif rental.contract_type == 'company':
+                rental.partner_id = False
+                rental.additional_driver_active = True
+                return {'domain': {'partner_id': [('is_company', '=', True)]}}
 
     @api.onchange('end_date')
     def _onchange_end_date(self):
@@ -621,10 +683,12 @@ class Picking(models.Model):
     def button_validate(self):
         # Clean-up the context key at validation to avoid forcing the creation of immediate
         # transfers.
+
         if self.for_rental_move:
             if not self.car_checked:
                 raise UserError(_('Please verify the car checklist !!!'))
             for move in self.move_ids_without_package:
+                new_odometer = move.new_odometer
                 if move.new_odometer < move.odometer:
                     raise UserError(_('Please update the vehicle Odometer !!!'))
                 elif move.new_odometer > move.odometer:
@@ -739,10 +803,18 @@ class Picking(models.Model):
                     picking_type = self.picking_type_code
                     if picking_type == 'outgoing':
                         for rental in rental_id:
-                            rental.outgoing_done = True
+                            rental.update({
+                                'outgoing_done': True,
+                                'out_date': self.date_done,
+                                'odometer_out': new_odometer
+                            })
                     elif picking_type == 'incoming':
                         for rental in rental_id:
-                            rental.incoming_done = True
+                            rental.update({
+                                'incoming_done': True,
+                                'in_date': self.date_done,
+                                'odometer_in': new_odometer
+                            })
 
         return True
 

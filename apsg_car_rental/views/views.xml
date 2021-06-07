@@ -1,5 +1,7 @@
 <odoo>
     <data>
+        <menuitem name="Rental Order Line" id="menu_rental_order_line"
+                  parent="browseinfo_rental_management.menu_rental" action="action_rental_order_line" sequence="12"/>
         <record id="rental_view_res_partner_form" model="ir.ui.view">
             <field name="name">inherit.view.res_partner.form</field>
             <field name="model">res.partner</field>
@@ -10,18 +12,23 @@
                            attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
                     <field name="id_issue_at"
                            attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
-                    <field name="id_date"
-                           attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
+                    <field name="id_date_hj"
+                           attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"
+                           placeholder="DD/MM/YYYY e.g. 25/01/1442"/>
+                    <field name="id_date" attrs="{'invisible': [('is_company','=', True)]}"/>
                     <field name="country_id"
                            attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
                 </xpath>
+
                 <xpath expr="//field[@name='category_id']" position="after">
                     <field name="license_num"
                            attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
                     <field name="license_issue_at"
                            attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
-                    <field name="license_date"
-                           attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
+                    <field name="license_date_hj"
+                           attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"
+                           placeholder="DD/MM/YYYY e.g. 25/01/1442"/>
+                    <field name="license_date" attrs="{'invisible': [('is_company','=', True)]}"/>
                     <field name="license_type"
                            attrs="{'invisible': [('is_company','=', True)], 'required':[ ('is_company','=', False)]}"/>
                 </xpath>
@@ -60,13 +67,41 @@
                 </field>
             </field>
         </record>
+        <record id="browseinfo_rental_management.action_rental_orders" model="ir.actions.act_window">
+            <field name="name">Rental Order</field>
+            <field name="res_model">rental.order</field>
+            <field name="view_mode">kanban,tree,form,pivot,graph</field>
+        </record>
+        <record id="action_rental_order_line" model="ir.actions.act_window">
+            <field name="name">Rental Order Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rental.order.line</field>
+            <field name="view_id" ref="view_rental_order_line_tree_inherit"/>
+            <field name="view_mode">kanban,tree,form,pivot,graph</field>
+        </record>
+        <record id="view_rental_order_line_tree_inherit" model="ir.ui.view">
+			<field name="name">rental.order.line.tree.inherit</field>
+			<field name="model">rental.order.line</field>
+            <field name="inherit_id" ref="browseinfo_rental_management.view_rental_order_line_tree" />
+			<field name="arch" type="xml">
+                <tree position="attributes">
+                <attribute name="edit">0</attribute>
+                <attribute name="create">0</attribute>
+                <attribute name="delete">0</attribute>
+            </tree>
+			</field>
+		</record>
         <record model="ir.ui.view" id="view_rental_order_inherit_form">
             <field name="name">view.rental.order.inherit.form</field>
             <field name="model">rental.order</field>
             <field name="inherit_id" ref="browseinfo_rental_management.view_rental_order_form"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field widget="radio" name="contract_type"
+                           attrs="{'readonly': [('state', 'in', ('confirm','close'))]}"/>
+                </field>
                 <field name="partner_id" position="after">
-                    <field name="additional_driver_active"/>
+                    <field name="additional_driver_active" attrs="{'readonly': [('contract_type', '=', 'company')]}"/>
                     <field name="outgoing_done" invisible="1"/>
                     <field name="incoming_done" invisible="1"/>
                     <field name="additional_driver_id" context="{'search_default_customer':1, 'show_address': 1}"
@@ -74,6 +109,9 @@
                            attrs="{'readonly': [('state', 'in', ('confirm','close'))],'invisible': [('additional_driver_active','=', False)], 'required':[ ('additional_driver_active','=', True)]}"/>
                     <field name="tamm_auth" attrs="{'readonly': [('state', 'in', ('confirm','close'))]}"/>
                     <field name="shmoos" attrs="{'readonly': [('state', 'in', ('confirm','close'))]}"/>
+                </field>
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" attrs="{'readonly': [('contract_type', '=', False)]}"/>
                 </field>
                 <xpath expr="//div[@name='Freq']" position="after">
                     <label for="extended_period" attrs="{'invisible': [('extended_period', '=', 0)]}"/>
@@ -98,11 +136,11 @@
                 </xpath>
                 <xpath expr="//button[@name='%(browseinfo_rental_management.action_view_rental_product_replace)d']"
                        position="replace">
-<!--                    <button name="%(browseinfo_rental_management.action_view_rental_product_replace)d"-->
-<!--                            attrs="{'invisible': ['|','|',('outgoing_done','!=', True),-->
-<!--                            ('incoming_done', '=', True),('state', '!=', 'confirm')]}"-->
-<!--                            string="Replace Product" class="oe_highlight"-->
-<!--                            type="action"/>-->
+                    <!--                    <button name="%(browseinfo_rental_management.action_view_rental_product_replace)d"-->
+                    <!--                            attrs="{'invisible': ['|','|',('outgoing_done','!=', True),-->
+                    <!--                            ('incoming_done', '=', True),('state', '!=', 'confirm')]}"-->
+                    <!--                            string="Replace Product" class="oe_highlight"-->
+                    <!--                            type="action"/>-->
                 </xpath>
                 <xpath expr="//button[@name='%(browseinfo_rental_management.action_extend_renew_rental)d']"
                        position="replace">
@@ -144,7 +182,8 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//notebook" position="inside">
-                        <page name="checklist" attrs="{'invisible':[('for_rental_move', '=', False)]}" string="Checklist">
+                        <page name="checklist" attrs="{'invisible':[('for_rental_move', '=', False)]}"
+                              string="Checklist">
                             <group>
                                 <group>
                                     <field name="for_rental_move" invisible="1"/>

@@ -6,13 +6,38 @@
                 <t t-call="web.external_layout">
                     <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
                     <div id="informations" class="row mt32 mb32">
-                        <h2>
-                            <span>Contract #</span>
-                            <span t-field="doc.name"/>
-                        </h2>
-                        <div class="col-auto col-3 mw-100 mb-2" t-if="doc.date_order">
+
+                        <div class="col-auto col-2 mw-100 mb-2">
+                            <strong>Contract #:</strong>
+                            <p class="m-0" t-field="doc.name"/>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.date_order">
                             <strong>Contract Date:</strong>
                             <p class="m-0" t-field="doc.date_order"/>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.state == 'confirm'">
+                            <strong>Contract State:</strong>
+                            <p class="m-0" >
+                                Open / عقد مفتوح
+                            </p>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.state == 'close'">
+                            <strong>Contract State:</strong>
+                            <p class="m-0" >
+                                Closed / عقد مغلق
+                            </p>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.contract_type == 'individual'">
+                            <strong>Contract Type:</strong>
+                            <p class="m-0" >
+                                Individual / افراد
+                            </p>
+                        </div>
+                        <div class="col-auto col-2 mw-100 mb-2" t-if="doc.contract_type == 'company'">
+                            <strong>Contract Type:</strong>
+                            <p class="m-0" >
+                                Companies / شركات
+                            </p>
                         </div>
 <!--                        <div class="col-auto col-3 mw-100 mb-2"-->
 <!--                             t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'"-->
@@ -354,9 +379,9 @@
                                     <p class="m-0" t-field="doc.partner_id.street"/>
                                     </t>
                                 </td>
-                                <td style="width: 10%; ">عنوان العمل
+                                <td style="width: 10%; ">العنوان
                                     <br/>
-                                    Work Address
+                                    Address
                                 </td>
                             </tr>
                             <tr style="text-align:center;border: 1px solid #666;">
