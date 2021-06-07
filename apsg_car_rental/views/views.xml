@@ -1,7 +1,6 @@
 <odoo>
     <data>
-        <menuitem name="Rental Order Line" id="menu_rental_order_line"
-                  parent="browseinfo_rental_management.menu_rental" action="action_rental_order_line" sequence="12"/>
+
         <record id="rental_view_res_partner_form" model="ir.ui.view">
             <field name="name">inherit.view.res_partner.form</field>
             <field name="model">res.partner</field>
@@ -72,13 +71,7 @@
             <field name="res_model">rental.order</field>
             <field name="view_mode">kanban,tree,form,pivot,graph</field>
         </record>
-        <record id="action_rental_order_line" model="ir.actions.act_window">
-            <field name="name">Rental Order Line</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">rental.order.line</field>
-            <field name="view_id" ref="view_rental_order_line_tree_inherit"/>
-            <field name="view_mode">kanban,tree,form,pivot,graph</field>
-        </record>
+
         <record id="view_rental_order_line_tree_inherit" model="ir.ui.view">
 			<field name="name">rental.order.line.tree.inherit</field>
 			<field name="model">rental.order.line</field>
@@ -91,6 +84,13 @@
             </tree>
 			</field>
 		</record>
+        <record id="action_rental_order_line" model="ir.actions.act_window">
+            <field name="name">Rental Order Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rental.order.line</field>
+            <field name="view_id" ref="view_rental_order_line_tree_inherit"/>
+            <field name="view_mode">kanban,tree,form,pivot,graph</field>
+        </record>
         <record model="ir.ui.view" id="view_rental_order_inherit_form">
             <field name="name">view.rental.order.inherit.form</field>
             <field name="model">rental.order</field>
@@ -229,6 +229,7 @@
                 </data>
             </field>
         </record>
-
+    <menuitem name="Rental Order Line" id="menu_rental_order_line"
+                  parent="browseinfo_rental_management.menu_rental" action="action_rental_order_line" sequence="12"/>
     </data>
 </odoo>
